@@ -27,6 +27,7 @@ public class Number implements Expression {
     @Override
     public Simplify(Expression exp) {
         
+    
     }
     
     public static void main(String[] args) {
