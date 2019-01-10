@@ -8,7 +8,7 @@ package formulaic;
 public interface Expression {
     /*
      * Datatype definition:
-     * Expression = TODO
+     * Expression = Number(double) + 
      * 
      */
     
