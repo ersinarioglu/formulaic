@@ -25,15 +25,15 @@ public class Number implements Expression {
     
     
     @Override
-    public Simplify(Expression exp) {
-        
-    
+    public Expression simplify(Expression exp) {
+        return exp;
     }
     
-    public static void main(String[] args) {
-        
+    @Override
+    public Expression derivative(Expression exp) {
+        return new Number(0);
     }
     
-    
+
     
 }
