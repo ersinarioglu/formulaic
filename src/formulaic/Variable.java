@@ -49,7 +49,7 @@ public class Variable implements Expression {
     
     @Override
     public String toString() {
-        return "(" + this.var + ")";
+        return  this.var ;
     }
     
     @Override
