@@ -1,4 +1,5 @@
 @skip whitespace {
+    expression ::= subtraction;
     subtraction ::= summation ('-' summation)*;
     summation ::= division ('\+' division)*;
     division ::= product ('/' product)*;

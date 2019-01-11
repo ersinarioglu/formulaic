@@ -34,6 +34,11 @@ public class Number implements Expression {
         return new Number(0);
     }
     
+    @Override
+    public String toString() {
+        return Double.toString(number);
+    }
+    
 
     
 }
