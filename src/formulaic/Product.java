@@ -30,11 +30,16 @@ public class Product implements Expression {
         Expression leftSimplified = left.simplify();
         Expression rightSimplified = right.simplify();
         Expression identity = new Number(1);
+        Expression zero = new Number(0);
         if (identity.equals(leftSimplified)) {
             return rightSimplified;
         }
         else if (identity.equals(rightSimplified)) {
             return leftSimplified;
+        }
+        
+        if (zero.equals(leftSimplified) || zero.equals(rightSimplified)) {
+            return new Number(0);
         }
         
         return new Product(leftSimplified, rightSimplified);
