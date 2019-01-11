@@ -103,7 +103,17 @@ public class ExpressionParser {
         
         case SUMMATION: // summation ::= division ('\+' division)*;
         {
+            final List<ParseTree<Grammar>> children = parseTree.children();
+            if (children.size() == 1) {
+                return makeAbstractSyntaxTree(children.get(0)); 
+            }
             
+            Expression summation = makeAbstractSyntaxTree(children.get(0));
+            
+            for (int i = 1; i < children.size(); i++) {
+                summation = new Summation(summation, makeAbstractSyntaxTree(children.get(i)));
+            }
+            return summation; 
         }
         
         }
