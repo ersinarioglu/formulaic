@@ -1,6 +1,7 @@
 package formulaic;
 import java.io.File;
 import java.io.IOException;
+import java.util.*;
 
 import edu.mit.eecs.parserlib.ParseTree;
 import edu.mit.eecs.parserlib.Parser;
@@ -78,7 +79,34 @@ public class ExpressionParser {
      * @return abstract syntax tree corresponding to parseTree
      */
     private static Expression makeAbstractSyntaxTree(final ParseTree<Grammar> parseTree) {
+        switch (parseTree.name()) {
+        case EXPRESSION: // expression ::= subtraction;
+        {
+            final ParseTree<Grammar> child = parseTree.children().get(0);
+            return makeAbstractSyntaxTree(child);
+        }
         
+        case SUBTRACTION: // subtraction ::= summation ('-' summation)*;
+        {
+            final List<ParseTree<Grammar>> children = parseTree.children();
+            if (children.size() == 1) {
+                return makeAbstractSyntaxTree(children.get(0)); 
+            }
+            
+            Expression subtraction = makeAbstractSyntaxTree(children.get(0));
+            
+            for (int i = 1; i < children.size(); i++) {
+                subtraction = new Subtraction(subtraction,makeAbstractSyntaxTree(children.get(i)));
+            }
+            return subtraction;        
+        }
+        
+        case SUMMATION: // summation ::= division ('\+' division)*;
+        {
+            
+        }
+        
+        }
     }
     
     
