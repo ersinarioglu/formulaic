@@ -14,7 +14,7 @@ public class ExpressionParser {
     private static final Parser<Grammar> PARSER = makeParser();
     
     private static enum Grammar {
-        NUMBER, VARIABLE, PRIMITIVE, EXPONENT, PRODUCT, DIVISION, SUMMATION, SUBTRACTION, EXPRESSION
+        NUMBER, VARIABLE, PRIMITIVE, PRODUCT, DIVISION, SUMMATION, SUBTRACTION, EXPRESSION
     }
     
     /**
@@ -146,20 +146,7 @@ public class ExpressionParser {
             return product; 
         }
         
-        case EXPONENT: // exponent ::= primitive ('\^' primitive)*;
-        {
-            final List<ParseTree<Grammar>> children = parseTree.children();
-            if (children.size() == 1) {
-                return makeAbstractSyntaxTree(children.get(0)); 
-            }
-            
-            Expression exponent = makeAbstractSyntaxTree(children.get(0));
-            
-            for (int i = 1; i < children.size(); i++) {
-                exponent = new Exponent(exponent, makeAbstractSyntaxTree(children.get(i)));
-            }
-            return exponent; 
-        }
+        
         
         case PRIMITIVE: // primitive ::= variable | number | '(' expression ')';
         {
@@ -172,9 +159,13 @@ public class ExpressionParser {
             return new Number(Double.parseDouble(parseTree.text()));
         }
         
-        case VARIABLE: // number ::= '-'? [0-9]* '\.'? [0-9]+;
+        case VARIABLE: // variable ::= [a-zA-Z] ('\^' number)?;
         {
-            return new Variable(parseTree.text());
+            final List<ParseTree<Grammar>> children = parseTree.children();
+            if (children.size() == 1) {
+                return new Variable(parseTree.text(), "1"); 
+            }          
+            return new Variable(children.get(0).text(), children.get(1).text());           
         }
         
         default:
