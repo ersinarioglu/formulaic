@@ -4,9 +4,10 @@
     summation ::= division ('\+' division)*;
     division ::= product ('/' product)*;
     product ::= variable ('*'? variable)*;
-    variable ::= [a-zA-Z] ('\^' number)?;
-    primitive ::= number | '(' expression ')';
+    power ::= primitive ('\^' number)?;
+    primitive ::= variable | number | '(' expression ')';
 }
 
+variable ::= [a-zA-Z];
 number ::= '-'? [0-9]* '\.'? [0-9]+;
 whitespace ::= [ \t\r\n]+;

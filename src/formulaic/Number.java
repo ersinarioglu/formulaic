@@ -23,6 +23,13 @@ public class Number implements Expression {
         this.number = number;
     }
     
+    /**
+     * Returns the value of the number object.
+     * @return the value represented by this number.
+     */
+    public double value() {
+        return this.number;            
+    }
     
     @Override
     public Expression simplify() {

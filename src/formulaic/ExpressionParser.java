@@ -14,7 +14,7 @@ public class ExpressionParser {
     private static final Parser<Grammar> PARSER = makeParser();
     
     private static enum Grammar {
-        NUMBER, VARIABLE, PRIMITIVE, PRODUCT, DIVISION, SUMMATION, SUBTRACTION, EXPRESSION
+        NUMBER, VARIABLE, PRIMITIVE, POWER, PRODUCT, DIVISION, SUMMATION, SUBTRACTION, EXPRESSION, WHITESPACE
     }
     
     /**
@@ -159,13 +159,18 @@ public class ExpressionParser {
             return new Number(Double.parseDouble(parseTree.text()));
         }
         
-        case VARIABLE: // variable ::= [a-zA-Z] ('\^' number)?;
+        case VARIABLE: // variable ::= [a-zA-Z];
+        {
+            return new Variable(parseTree.text());
+        }
+        
+        case POWER: // power ::= primitive ('\^' number)?;
         {
             final List<ParseTree<Grammar>> children = parseTree.children();
             if (children.size() == 1) {
-                return new Variable(parseTree.text(), "1"); 
+                return new Power(makeAbstractSyntaxTree(children.get(0)), new Number(1)); 
             }          
-            return new Variable(children.get(0).text(), children.get(1).text());           
+            return new Power(makeAbstractSyntaxTree(children.get(0)), new Number(Double.parseDouble(children.get(1).text())));           
         }
         
         default:

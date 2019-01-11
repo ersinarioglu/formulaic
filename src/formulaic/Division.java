@@ -34,7 +34,7 @@ public class Division implements Expression {
         Expression rightSimplified = right.simplify();
         if (zero.equals(leftSimplified)) {
             return zero;
-       
+        }
         else if (identity.equals(rightSimplified)) {
             return leftSimplified;
         }
