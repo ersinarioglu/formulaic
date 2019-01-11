@@ -168,7 +168,7 @@ public class ExpressionParser {
         {
             final List<ParseTree<Grammar>> children = parseTree.children();
             if (children.size() == 1) {
-                return new Power(makeAbstractSyntaxTree(children.get(0)), new Number(1)); 
+                return makeAbstractSyntaxTree(children.get(0)); 
             }          
             return new Power(makeAbstractSyntaxTree(children.get(0)), new Number(Double.parseDouble(children.get(1).text())));           
         }
