@@ -25,12 +25,12 @@ public class Number implements Expression {
     
     
     @Override
-    public Expression simplify(Expression exp) {
-        return exp;
+    public Expression simplify() {
+        return this;
     }
     
     @Override
-    public Expression derivative(Expression exp) {
+    public Expression derivative(String wrt) {
         return new Number(0);
     }
     

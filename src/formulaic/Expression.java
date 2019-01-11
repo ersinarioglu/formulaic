@@ -18,14 +18,15 @@ public interface Expression {
      * @param exp Expression object to be simplified.
      * @return Expression representing the simplified version of the formula.
      */
-    public Expression simplify(Expression exp);
+    public Expression simplify();
     
     
     /**
-     * Returns the derivative of the formula given.
+     * Returns the derivative of the formula given with respect to a variable.
      * @param exp Expression object to be derived.
+     * @param wrt String variable to be derived with respect to.
      * @return Expression representing the simplified version of the formula.
      */
-    public Expression derivative(Expression exp);
+    public Expression derivative(String wrt);
     
 }
