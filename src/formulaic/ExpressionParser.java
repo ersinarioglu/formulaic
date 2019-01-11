@@ -14,7 +14,7 @@ public class ExpressionParser {
     private static final Parser<Grammar> PARSER = makeParser();
     
     private static enum Grammar {
-        NUMBER, VARIABLE, EXPONENT, PRODUCT, DIVISION, SUMMATION, SUBTRACTION, EXPRESSION
+        NUMBER, VARIABLE, PRIMITIVE, EXPONENT, PRODUCT, DIVISION, SUMMATION, SUBTRACTION, EXPRESSION
     }
     
     /**
@@ -115,6 +115,70 @@ public class ExpressionParser {
             }
             return summation; 
         }
+        
+        case DIVISION: // division ::= product ('/' product)*;
+        {
+            final List<ParseTree<Grammar>> children = parseTree.children();
+            if (children.size() == 1) {
+                return makeAbstractSyntaxTree(children.get(0)); 
+            }
+            
+            Expression division = makeAbstractSyntaxTree(children.get(0));
+            
+            for (int i = 1; i < children.size(); i++) {
+                division = new Division(division, makeAbstractSyntaxTree(children.get(i)));
+            }
+            return division; 
+        }
+        
+        case PRODUCT: // product ::= exponent ('*'? exponent)*;
+        {
+            final List<ParseTree<Grammar>> children = parseTree.children();
+            if (children.size() == 1) {
+                return makeAbstractSyntaxTree(children.get(0)); 
+            }
+            
+            Expression product = makeAbstractSyntaxTree(children.get(0));
+            
+            for (int i = 1; i < children.size(); i++) {
+                product = new Product(product, makeAbstractSyntaxTree(children.get(i)));
+            }
+            return product; 
+        }
+        
+        case EXPONENT: // exponent ::= primitive ('\^' primitive)*;
+        {
+            final List<ParseTree<Grammar>> children = parseTree.children();
+            if (children.size() == 1) {
+                return makeAbstractSyntaxTree(children.get(0)); 
+            }
+            
+            Expression exponent = makeAbstractSyntaxTree(children.get(0));
+            
+            for (int i = 1; i < children.size(); i++) {
+                exponent = new Exponent(exponent, makeAbstractSyntaxTree(children.get(i)));
+            }
+            return exponent; 
+        }
+        
+        case PRIMITIVE: // primitive ::= variable | number | '(' expression ')';
+        {
+            final List<ParseTree<Grammar>> children = parseTree.children();
+            return makeAbstractSyntaxTree(children.get(0));
+        }
+        
+        case NUMBER: // number ::= '-'? [0-9]* '\.'? [0-9]+;
+        {
+            return new Number(Double.parseDouble(parseTree.text()));
+        }
+        
+        case VARIABLE: // number ::= '-'? [0-9]* '\.'? [0-9]+;
+        {
+            return new Variable(parseTree.text());
+        }
+        
+        default:
+            throw new AssertionError("Should never get here.");     
         
         }
     }
