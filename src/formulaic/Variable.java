@@ -44,4 +44,20 @@ public class Variable implements Expression {
         return this;
     }
     
+    @Override
+    public String toString() {
+        return this.var;
+    }
+    
+    @Override
+    public boolean equals(Object that) {
+        if (that instanceof Variable) {
+            if (this.var.equals(((Variable)that).var)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
 }

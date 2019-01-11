@@ -39,6 +39,16 @@ public class Number implements Expression {
         return Double.toString(number);
     }
     
+    @Override
+    public boolean equals(Object that) {
+        if (that instanceof Number) {
+            if (this.number == ((Number)that).number) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 
     
 }
